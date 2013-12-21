@@ -515,7 +515,7 @@ public final class Main extends ListActivity {
     		editor.putInt(PREFS_SORT, sort);
     		editor.putInt(PREFS_STORAGE, space);
     		editor.commit();
-    		  		
+
     		mFileMag.setShowHiddenFiles(check);
     		mFileMag.setSortType(sort);
     		mHandler.setTextColor(color);

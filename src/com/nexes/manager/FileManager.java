@@ -448,11 +448,33 @@ public class FileManager {
 	 * @param pathName
 	 * @return
 	 */
+//	public ArrayList<String> searchInDirectory(String dir, String pathName) {
+//		ArrayList<String> names = new ArrayList<String>();
+//		search_file(dir, pathName, names);
+//
+//		return names;
+//	}
 	public ArrayList<String> searchInDirectory(String dir, String pathName) {
-		ArrayList<String> names = new ArrayList<String>();
-		search_file(dir, pathName, names);
-
-		return names;
+		 //ArrayList<String> names = new ArrayList<String>();
+        //search_file(dir, pathName, names);
+        //input output Array List
+         
+        //return names;
+//        search_file()
+        //call method with String
+        
+        
+        fileman_stub f= new fileman_stub();
+        
+        //String to ArrayList<String>
+        
+        String names_jsonString= f.searchInDirectory(dir, pathName);
+        
+        ArrayList<String> names = new ArrayList<String>();     
+        names=Modules.StoA(names_jsonString);
+      
+        //
+        return names;	
 	}
 	
 	/**
@@ -518,88 +540,8 @@ public class FileManager {
 	 * @return
 	 */
 	
-//	private ArrayList<String> populate_list() {
-//		
-//		if(!mDirContent.isEmpty())
-//			mDirContent.clear();
-//		
-//		File file = new File(mPathStack.peek());
-//		
-//		if(file.exists() && file.canRead()) {
-//			String[] list = file.list();
-//			int len = list.length;
-//			
-//			/* add files/folder to arraylist depending on hidden status */
-//			for (int i = 0; i < len; i++) {
-//				if(!mShowHiddenFiles) {
-//					if(list[i].toString().charAt(0) != '.')
-//						mDirContent.add(list[i]);
-//					
-//				} else {
-//					mDirContent.add(list[i]);
-//				}
-//			}
-//			
-//			/* sort the arraylist that was made from above for loop */
-//			switch(mSortType) {
-//				case SORT_NONE:
-//					//no sorting needed
-//					break;
-//					
-//				case SORT_ALPHA:
-//					Object[] tt = mDirContent.toArray();
-//					mDirContent.clear();
-//					
-//					Arrays.sort(tt, alph);
-//					
-//					for (Object a : tt){
-//						mDirContent.add((String)a);
-//					}
-//					break;
-//					
-//				case SORT_SIZE:
-//					int index = 0;
-//					Object[] size_ar = mDirContent.toArray();
-//					String dir = mPathStack.peek();
-//					
-//					Arrays.sort(size_ar, size);
-//					
-//					mDirContent.clear();
-//					for (Object a : size_ar) {
-//						if(new File(dir + "/" + (String)a).isDirectory())
-//							mDirContent.add(index++, (String)a);
-//						else
-//							mDirContent.add((String)a);
-//					}
-//					break;
-//					
-//				case SORT_TYPE:
-//					int dirindex = 0;
-//					Object[] type_ar = mDirContent.toArray();
-//					String current = mPathStack.peek();
-//					
-//					Arrays.sort(type_ar, type);
-//					mDirContent.clear();
-//					
-//					for (Object a : type_ar) {
-//						if(new File(current + "/" + (String)a).isDirectory())
-//							mDirContent.add(dirindex++, (String)a);
-//						else
-//							mDirContent.add((String)a);
-//					}
-//					break;
-//			}
-//				
-//		} else {
-//			mDirContent.add("Emtpy");
-//		}
-//		
-//		return mDirContent;
-//	}
-private String populate_list() {
+	private ArrayList<String> populate_list() {
 		
-		JSONArray mDirContent_ja;
-	
 		if(!mDirContent.isEmpty())
 			mDirContent.clear();
 		
@@ -673,11 +615,91 @@ private String populate_list() {
 		} else {
 			mDirContent.add("Emtpy");
 		}
-		//change to String from JA
-		mDirContent_ja =Modules.AtoJA(mDirContent);
 		
-		return mDirContent_ja.toString();
+		return mDirContent;
 	}
+//private String populate_list() {
+//		
+//		JSONArray mDirContent_ja;
+//	
+//		if(!mDirContent.isEmpty())
+//			mDirContent.clear();
+//		
+//		File file = new File(mPathStack.peek());
+//		
+//		if(file.exists() && file.canRead()) {
+//			String[] list = file.list();
+//			int len = list.length;
+//			
+//			/* add files/folder to arraylist depending on hidden status */
+//			for (int i = 0; i < len; i++) {
+//				if(!mShowHiddenFiles) {
+//					if(list[i].toString().charAt(0) != '.')
+//						mDirContent.add(list[i]);
+//					
+//				} else {
+//					mDirContent.add(list[i]);
+//				}
+//			}
+//			
+//			/* sort the arraylist that was made from above for loop */
+//			switch(mSortType) {
+//				case SORT_NONE:
+//					//no sorting needed
+//					break;
+//					
+//				case SORT_ALPHA:
+//					Object[] tt = mDirContent.toArray();
+//					mDirContent.clear();
+//					
+//					Arrays.sort(tt, alph);
+//					
+//					for (Object a : tt){
+//						mDirContent.add((String)a);
+//					}
+//					break;
+//					
+//				case SORT_SIZE:
+//					int index = 0;
+//					Object[] size_ar = mDirContent.toArray();
+//					String dir = mPathStack.peek();
+//					
+//					Arrays.sort(size_ar, size);
+//					
+//					mDirContent.clear();
+//					for (Object a : size_ar) {
+//						if(new File(dir + "/" + (String)a).isDirectory())
+//							mDirContent.add(index++, (String)a);
+//						else
+//							mDirContent.add((String)a);
+//					}
+//					break;
+//					
+//				case SORT_TYPE:
+//					int dirindex = 0;
+//					Object[] type_ar = mDirContent.toArray();
+//					String current = mPathStack.peek();
+//					
+//					Arrays.sort(type_ar, type);
+//					mDirContent.clear();
+//					
+//					for (Object a : type_ar) {
+//						if(new File(current + "/" + (String)a).isDirectory())
+//							mDirContent.add(dirindex++, (String)a);
+//						else
+//							mDirContent.add((String)a);
+//					}
+//					break;
+//			}
+//				
+//		} else {
+//			mDirContent.add("Emtpy");
+//		}
+//		//change to String from JA
+//		mDirContent_ja =Modules.AtoJA(mDirContent);
+//		
+//		return mDirContent_ja.toString();
+//	}
 	
 	/*
 	 * 
@@ -748,6 +770,31 @@ private String populate_list() {
 	 * @param fileName	filename that is being searched for
 	 * @param n			ArrayList to populate results
 	 */
+//	public void search_file(String dir, String fileName, ArrayList<String> n) {
+//		File root_dir = new File(dir);
+//		String[] list = root_dir.list();
+//		
+//		if(list != null && root_dir.canRead()) {
+//			int len = list.length;
+//			
+//			for (int i = 0; i < len; i++) {
+//				File check = new File(dir + "/" + list[i]);
+//				String name = check.getName();
+//					
+//				if(check.isFile() && name.toLowerCase().
+//										contains(fileName.toLowerCase())) {
+//					n.add(check.getPath());
+//				}
+//				else if(check.isDirectory()) {
+//					if(name.toLowerCase().contains(fileName.toLowerCase()))
+//						n.add(check.getPath());
+//					
+//					else if(check.canRead() && !dir.equals("/"))
+//						search_file(check.getAbsolutePath(), fileName, n);
+//				}
+//			}
+//		}
+//	}
 	public void search_file(String dir, String fileName, ArrayList<String> n) {
 		File root_dir = new File(dir);
 		String[] list = root_dir.list();
@@ -758,9 +805,9 @@ private String populate_list() {
 			for (int i = 0; i < len; i++) {
 				File check = new File(dir + "/" + list[i]);
 				String name = check.getName();
-					
+				
 				if(check.isFile() && name.toLowerCase().
-										contains(fileName.toLowerCase())) {
+						contains(fileName.toLowerCase())) {
 					n.add(check.getPath());
 				}
 				else if(check.isDirectory()) {

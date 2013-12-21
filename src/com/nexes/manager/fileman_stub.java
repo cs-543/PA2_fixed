@@ -32,8 +32,9 @@ public class fileman_stub implements fileman {
                 FileManager fm = new FileManager();
                 //names ?? FileManager 만들어서  poplist 실행시켜서 넣어줘야 하나?? 빈거 넣으면 됨 
                 fm.search_file(dir, pathName, names);
-                String names_jsonString = new Gson().toJson(names);
-                return names_jsonString;
+                //String names_jsonString = new Gson().toJson(names);
+                
+                return Modules.AtoJA(names).toString();
                 //2013.12.15 1:10
         }
 }
