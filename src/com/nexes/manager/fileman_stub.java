@@ -8,6 +8,13 @@ import org.json.simple.JSONValue;
 //import com.google.gson.Gson;
 
 public class fileman_stub implements fileman {
+	
+	
+	
+	private ArrayList<String> populate_list(){
+		return null;
+		
+	}
 
         public String searchInDirectory(String dir, String pathName) {
 
@@ -16,16 +23,7 @@ public class fileman_stub implements fileman {
 
 
                 // return names;
-                ArrayList<String> pathName_arryList = new ArrayList<String>();     
-                Object obj=JSONValue.parse(pathName);
-                JSONArray jArray = (JSONArray)obj;
-                
-                if (jArray != null) { 
-                   for (int i=0;i<jArray.size();i++){ 
-                           pathName_arryList.add(jArray.get(i).toString());
-                   } 
-                }
-                
+           
 
                 ArrayList<String> names = new ArrayList<String>();
                 // How about Arraylist inside method

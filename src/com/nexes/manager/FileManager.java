@@ -455,18 +455,10 @@ public class FileManager {
 //		return names;
 //	}
 	public ArrayList<String> searchInDirectory(String dir, String pathName) {
-		 //ArrayList<String> names = new ArrayList<String>();
-        //search_file(dir, pathName, names);
-        //input output Array List
-         
-        //return names;
-//        search_file()
-        //call method with String
-        
-        
+	
+           
         fileman_stub f= new fileman_stub();
         
-        //String to ArrayList<String>
         
         String names_jsonString= f.searchInDirectory(dir, pathName);
         
