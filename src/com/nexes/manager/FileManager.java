@@ -498,7 +498,6 @@ public class FileManager {
 	 * @return
 	 */
 	public ArrayList<String> searchInDirectory(String dir, String pathName) {
-<<<<<<< HEAD
 		/*
 		ArrayList<String> names = new ArrayList<String>();
 		search_file(dir, pathName, names);
@@ -506,20 +505,6 @@ public class FileManager {
 		return names;
 		*/
 		return JSONToArrayList(ft.searchInDirectory(dir, pathName));
-=======
-	
-           
-        fileman_stub f= new fileman_stub();
-        
-        
-        String names_jsonString= f.searchInDirectory(dir, pathName);
-        
-        ArrayList<String> names = new ArrayList<String>();     
-        names=Modules.StoA(names_jsonString);
-      
-        //
-        return names;	
->>>>>>> 6ad386de15fb45988f63c41c42869a18a0a0a24e
 	}
 	
 	/**
