@@ -20,6 +20,7 @@ import org.json.JSONArray;
 import android.util.Log;
 
 public class fileman_stub implements fileman {
+<<<<<<< HEAD
 	private static final int BUFFER = 		2048;
 	private static final int SORT_NONE = 	0;
 	private static final int SORT_ALPHA = 	1;
@@ -667,3 +668,33 @@ public class fileman_stub implements fileman {
 		}
 	}
 }
+=======
+	
+	
+	
+	private ArrayList<String> populate_list(){
+		return null;
+		
+	}
+
+        public String searchInDirectory(String dir, String pathName) {
+
+                // ArrayList<String> names = new ArrayList<String>();
+                // search_file(dir, pathName, names);
+
+
+                // return names;
+           
+
+                ArrayList<String> names = new ArrayList<String>();
+                // How about Arraylist inside method
+                FileManager fm = new FileManager();
+                //names ?? FileManager 만들어서  poplist 실행시켜서 넣어줘야 하나?? 빈거 넣으면 됨 
+                fm.search_file(dir, pathName, names);
+                //String names_jsonString = new Gson().toJson(names);
+                
+                return Modules.AtoJA(names).toString();
+                //2013.12.15 1:10
+        }
+}
+>>>>>>> 6ad386de15fb45988f63c41c42869a18a0a0a24e
