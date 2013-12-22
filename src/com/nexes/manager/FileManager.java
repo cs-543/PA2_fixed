@@ -19,21 +19,9 @@
 package com.nexes.manager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Stack;
-import java.io.File;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-import java.util.zip.ZipOutputStream;
 
-import org.json.simple.JSONArray;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import android.util.Log;
 
@@ -53,6 +41,7 @@ import android.util.Log;
  *
  */
 public class FileManager {
+	/*
 	private static final int BUFFER = 		2048;
 	private static final int SORT_NONE = 	0;
 	private static final int SORT_ALPHA = 	1;
@@ -64,26 +53,33 @@ public class FileManager {
 	private long mDirSize = 0;
 	private Stack<String> mPathStack;
 	private ArrayList<String> mDirContent;
-	
+	*/
+	private fileman_stub ft;
 	/**
 	 * Constructs an object of the class
 	 * <br>
 	 * this class uses a stack to handle the navigation of directories.
 	 */
 	public FileManager() {
+		/*
 		mDirContent = new ArrayList<String>();
 		mPathStack = new Stack<String>();
 		
 		mPathStack.push("/");
 		mPathStack.push(mPathStack.peek() + "sdcard");
+		*/
+		ft = new fileman_stub();
 	}
 	
 	/**
 	 * This will return a string of the current directory path
 	 * @return the current directory
 	 */
+	
 	public String getCurrentDir() {
-		return mPathStack.peek();
+		
+		return ft.getCurrentDir();
+		//return mPathStack.peek();
 	}
 	
 	/**
@@ -92,11 +88,14 @@ public class FileManager {
 	 */
 	public ArrayList<String> setHomeDir(String name) {
 		//This will eventually be placed as a settings item
+		return JSONToArrayList(ft.setHomeDir(name));
+		/*
 		mPathStack.clear();
 		mPathStack.push("/");
 		mPathStack.push(name);
 		
 		return populate_list();
+		*/
 	}
 	
 	/**
@@ -105,7 +104,8 @@ public class FileManager {
 	 * @param choice	true if user is veiwing hidden files, false otherwise
 	 */
 	public void setShowHiddenFiles(boolean choice) {
-		mShowHiddenFiles = choice;
+		//mShowHiddenFiles = choice;
+		ft.setShowHiddenFiles(choice);
 	}
 	
 	/**
@@ -113,14 +113,36 @@ public class FileManager {
 	 * @param type
 	 */
 	public void setSortType(int type) {
-		mSortType = type;
+		//mSortType = type;
+		ft.setSortType(type);
 	}
+	
+	
+	
+
+	
+	private ArrayList<String> JSONToArrayList(String json){
+		ArrayList<String> arraylist = new ArrayList<String>();
+		try {
+			JSONArray jsonarray = new JSONArray(json);
+			for (int i=0; i<jsonarray.length();i++){
+				arraylist.add(jsonarray.get(i).toString());
+			}
+		}
+		catch (JSONException e){
+			Log.e("JSON", e.toString());
+		}
+		return arraylist;
+	}
+	
 	
 	/**
 	 * This will return a string that represents the path of the previous path
 	 * @return	returns the previous path
 	 */
 	public ArrayList<String> getPreviousDir() {
+		return this.JSONToArrayList(ft.getPreviousDir());
+		/*
 		int size = mPathStack.size();
 		
 		if (size >= 2)
@@ -130,6 +152,7 @@ public class FileManager {
 			mPathStack.push("/");
 		
 		return populate_list();
+		*/
 	}
 	
 	/**
@@ -139,6 +162,7 @@ public class FileManager {
 	 * @return
 	 */
 	public ArrayList<String> getNextDir(String path, boolean isFullPath) {
+		/*
 		int size = mPathStack.size();
 		
 		if(!path.equals(mPathStack.peek()) && !isFullPath) {
@@ -153,6 +177,8 @@ public class FileManager {
 		}
 		
 		return populate_list();
+		*/ 
+		return JSONToArrayList(ft.getNextDir(path, isFullPath));
 	}
 
 	/**
@@ -162,6 +188,7 @@ public class FileManager {
 	 * @return
 	 */
 	public int copyToDirectory(String old, String newDir) {
+		/*
 		File old_file = new File(old);
 		File temp_dir = new File(newDir);
 		byte[] data = new byte[BUFFER];
@@ -208,6 +235,8 @@ public class FileManager {
 			return -1;
 		
 		return 0;
+		*/
+		return ft.copyToDirectory(old, newDir);
 	}
 	
 	/**
@@ -217,6 +246,7 @@ public class FileManager {
 	 * @param fromDir
 	 */
 	public void extractZipFilesFromDir(String zipName, String toDir, String fromDir) {
+		/*
 		if(!(toDir.charAt(toDir.length() - 1) == '/'))
 			toDir += "/";
 		if(!(fromDir.charAt(fromDir.length() - 1) == '/'))
@@ -225,6 +255,8 @@ public class FileManager {
 		String org_path = fromDir + zipName;		
 		
 		extractZipFiles(org_path, toDir);
+		*/
+		ft.extractZipFilesFromDir(zipName, toDir, fromDir);
 	}
 	
 	/**
@@ -233,6 +265,7 @@ public class FileManager {
 	 * @param directory
 	 */
 	public void extractZipFiles(String zip_file, String directory) {
+		/*
 		byte[] data = new byte[BUFFER];
 		String name, path, zipDir;
 		ZipEntry entry;
@@ -286,6 +319,8 @@ public class FileManager {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		*/
+		ft.extractZipFiles(zip_file, directory);
 	}
 	
 	/**
@@ -293,6 +328,7 @@ public class FileManager {
 	 * @param path
 	 */
 	public void createZipFile(String path) {
+		/*
 		File dir = new File(path);
 		String[] list = dir.list();
 		String name = path.substring(path.lastIndexOf("/"), path.length());
@@ -323,7 +359,9 @@ public class FileManager {
 
 		} catch (IOException e) {
 			Log.e("IOException", e.getMessage());
-		}
+		}*/
+		
+		ft.createZipFile(path);
 	}
 	
 	/**
@@ -333,12 +371,12 @@ public class FileManager {
 	 * @return
 	 */
 	public int renameTarget(String filePath, String newName) {
+		/*
 		File src = new File(filePath);
 		String ext = "";
 		File dest;
 		
 		if(src.isFile())
-			/*get file extension*/
 			ext = filePath.substring(filePath.lastIndexOf("."), filePath.length());
 		
 		if(newName.length() < 1)
@@ -351,6 +389,8 @@ public class FileManager {
 			return 0;
 		else
 			return -1;
+		*/
+		return ft.renameTarget(filePath, newName);
 	}
 	
 	/**
@@ -360,6 +400,7 @@ public class FileManager {
 	 * @return
 	 */
 	public int createDir(String path, String name) {
+		/*
 		int len = path.length();
 		
 		if(len < 1 || len < 1)
@@ -372,6 +413,8 @@ public class FileManager {
 			return 0;
 		
 		return -1;
+		*/
+		return ft.createDir(path, name);
 	}
 	
 	/**
@@ -381,6 +424,7 @@ public class FileManager {
 	 * @return
 	 */
 	public int deleteTarget(String path) {
+		/*
 		File target = new File(path);
 		
 		if(target.exists() && target.isFile() && target.canWrite()) {
@@ -411,7 +455,11 @@ public class FileManager {
 					return 0;
 		}	
 		return -1;
+		*/
+		return ft.deleteTarget(path);
 	}
+	
+
 	
 	/**
 	 * 
@@ -419,7 +467,8 @@ public class FileManager {
 	 * @return
 	 */
 	public boolean isDirectory(String name) {
-		return new File(mPathStack.peek() + "/" + name).isDirectory();
+		return ft.isDirectory(name);
+		//return new File(mPathStack.peek() + "/" + name).isDirectory();
 	}
 		
 	/**
@@ -448,33 +497,14 @@ public class FileManager {
 	 * @param pathName
 	 * @return
 	 */
-//	public ArrayList<String> searchInDirectory(String dir, String pathName) {
-//		ArrayList<String> names = new ArrayList<String>();
-//		search_file(dir, pathName, names);
-//
-//		return names;
-//	}
 	public ArrayList<String> searchInDirectory(String dir, String pathName) {
-		 //ArrayList<String> names = new ArrayList<String>();
-        //search_file(dir, pathName, names);
-        //input output Array List
-         
-        //return names;
-//        search_file()
-        //call method with String
-        
-        
-        fileman_stub f= new fileman_stub();
-        
-        //String to ArrayList<String>
-        
-        String names_jsonString= f.searchInDirectory(dir, pathName);
-        
-        ArrayList<String> names = new ArrayList<String>();     
-        names=Modules.StoA(names_jsonString);
-      
-        //
-        return names;	
+		/*
+		ArrayList<String> names = new ArrayList<String>();
+		search_file(dir, pathName, names);
+
+		return names;
+		*/
+		return JSONToArrayList(ft.searchInDirectory(dir, pathName));
 	}
 	
 	/**
@@ -483,19 +513,23 @@ public class FileManager {
 	 * @return
 	 */
 	public long getDirSize(String path) {
+		/*
 		get_dir_size(new File(path));
 
 		return mDirSize;
+		*/
+		return ft.getDirSize(path);
 	}
 	
-	
+	/*
 	private static final Comparator alph = new Comparator<String>() {
 		@Override
 		public int compare(String arg0, String arg1) {
 			return arg0.toLowerCase().compareTo(arg1.toLowerCase());
 		}
 	};
-	
+	*/
+	/*
 	private final Comparator size = new Comparator<String>() {
 		@Override
 		public int compare(String arg0, String arg1) {
@@ -505,8 +539,9 @@ public class FileManager {
 			
 			return first.compareTo(second);
 		}
-	};
+	};*/
 	
+	/*
 	private final Comparator type = new Comparator<String>() {
 		@Override
 		public int compare(String arg0, String arg1) {
@@ -528,7 +563,7 @@ public class FileManager {
 			
 			return ret;
 		}
-	};
+	};*/
 	
 	/* (non-Javadoc)
 	 * this function will take the string from the top of the directory stack
@@ -539,7 +574,7 @@ public class FileManager {
 	 * 
 	 * @return
 	 */
-	
+	/*
 	private ArrayList<String> populate_list() {
 		
 		if(!mDirContent.isEmpty())
@@ -551,7 +586,7 @@ public class FileManager {
 			String[] list = file.list();
 			int len = list.length;
 			
-			/* add files/folder to arraylist depending on hidden status */
+			
 			for (int i = 0; i < len; i++) {
 				if(!mShowHiddenFiles) {
 					if(list[i].toString().charAt(0) != '.')
@@ -562,7 +597,7 @@ public class FileManager {
 				}
 			}
 			
-			/* sort the arraylist that was made from above for loop */
+			
 			switch(mSortType) {
 				case SORT_NONE:
 					//no sorting needed
@@ -616,90 +651,10 @@ public class FileManager {
 			mDirContent.add("Emtpy");
 		}
 		
-		return mDirContent;
-	}
-//private String populate_list() {
-//		
-//		JSONArray mDirContent_ja;
-//	
-//		if(!mDirContent.isEmpty())
-//			mDirContent.clear();
-//		
-//		File file = new File(mPathStack.peek());
-//		
-//		if(file.exists() && file.canRead()) {
-//			String[] list = file.list();
-//			int len = list.length;
-//			
-//			/* add files/folder to arraylist depending on hidden status */
-//			for (int i = 0; i < len; i++) {
-//				if(!mShowHiddenFiles) {
-//					if(list[i].toString().charAt(0) != '.')
-//						mDirContent.add(list[i]);
-//					
-//				} else {
-//					mDirContent.add(list[i]);
-//				}
-//			}
-//			
-//			/* sort the arraylist that was made from above for loop */
-//			switch(mSortType) {
-//				case SORT_NONE:
-//					//no sorting needed
-//					break;
-//					
-//				case SORT_ALPHA:
-//					Object[] tt = mDirContent.toArray();
-//					mDirContent.clear();
-//					
-//					Arrays.sort(tt, alph);
-//					
-//					for (Object a : tt){
-//						mDirContent.add((String)a);
-//					}
-//					break;
-//					
-//				case SORT_SIZE:
-//					int index = 0;
-//					Object[] size_ar = mDirContent.toArray();
-//					String dir = mPathStack.peek();
-//					
-//					Arrays.sort(size_ar, size);
-//					
-//					mDirContent.clear();
-//					for (Object a : size_ar) {
-//						if(new File(dir + "/" + (String)a).isDirectory())
-//							mDirContent.add(index++, (String)a);
-//						else
-//							mDirContent.add((String)a);
-//					}
-//					break;
-//					
-//				case SORT_TYPE:
-//					int dirindex = 0;
-//					Object[] type_ar = mDirContent.toArray();
-//					String current = mPathStack.peek();
-//					
-//					Arrays.sort(type_ar, type);
-//					mDirContent.clear();
-//					
-//					for (Object a : type_ar) {
-//						if(new File(current + "/" + (String)a).isDirectory())
-//							mDirContent.add(dirindex++, (String)a);
-//						else
-//							mDirContent.add((String)a);
-//					}
-//					break;
-//			}
-//				
-//		} else {
-//			mDirContent.add("Emtpy");
-//		}
-//		//change to String from JA
-//		mDirContent_ja =Modules.AtoJA(mDirContent);
-//		
-//		return mDirContent_ja.toString();
-//	}
+		return JSONToArrayList(ArrayListToJSON(mDirContent));
+		
+		//return mDirContent;
+	} */
 	
 	/*
 	 * 
@@ -707,6 +662,7 @@ public class FileManager {
 	 * @param zout
 	 * @throws IOException
 	 */
+	/*
 	private void zip_folder(File file, ZipOutputStream zout) throws IOException {
 		byte[] data = new byte[BUFFER];
 		int read;
@@ -730,7 +686,7 @@ public class FileManager {
 			for(int i = 0; i < len; i++)
 				zip_folder(new File(file.getPath() +"/"+ list[i]), zout);
 		}
-	}
+	}*/
 	
 	/*
 	 * This function will be rewritten as there is a problem getting
@@ -740,6 +696,7 @@ public class FileManager {
 	 * 
 	 * @param path
 	 */
+	/*
 	private void get_dir_size(File path) {
 		File[] list = path.listFiles();
 		int len;
@@ -756,7 +713,7 @@ public class FileManager {
 				}
 			}
 		}
-	}
+	}*/
 
 	/*
 	 * (non-JavaDoc)
@@ -770,32 +727,8 @@ public class FileManager {
 	 * @param fileName	filename that is being searched for
 	 * @param n			ArrayList to populate results
 	 */
-//	public void search_file(String dir, String fileName, ArrayList<String> n) {
-//		File root_dir = new File(dir);
-//		String[] list = root_dir.list();
-//		
-//		if(list != null && root_dir.canRead()) {
-//			int len = list.length;
-//			
-//			for (int i = 0; i < len; i++) {
-//				File check = new File(dir + "/" + list[i]);
-//				String name = check.getName();
-//					
-//				if(check.isFile() && name.toLowerCase().
-//										contains(fileName.toLowerCase())) {
-//					n.add(check.getPath());
-//				}
-//				else if(check.isDirectory()) {
-//					if(name.toLowerCase().contains(fileName.toLowerCase()))
-//						n.add(check.getPath());
-//					
-//					else if(check.canRead() && !dir.equals("/"))
-//						search_file(check.getAbsolutePath(), fileName, n);
-//				}
-//			}
-//		}
-//	}
-	public void search_file(String dir, String fileName, ArrayList<String> n) {
+	/*
+	private void search_file(String dir, String fileName, ArrayList<String> n) {
 		File root_dir = new File(dir);
 		String[] list = root_dir.list();
 		
@@ -805,9 +738,9 @@ public class FileManager {
 			for (int i = 0; i < len; i++) {
 				File check = new File(dir + "/" + list[i]);
 				String name = check.getName();
-				
+					
 				if(check.isFile() && name.toLowerCase().
-						contains(fileName.toLowerCase())) {
+										contains(fileName.toLowerCase())) {
 					n.add(check.getPath());
 				}
 				else if(check.isDirectory()) {
@@ -819,5 +752,5 @@ public class FileManager {
 				}
 			}
 		}
-	}
+	}*/
 }
